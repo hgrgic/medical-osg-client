@@ -55,8 +55,8 @@ function App() {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                   <Nav.Link href="#home">Home</Nav.Link>
-                  <Nav.Link href="#link">Link</Nav.Link>
-                  <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                  <Nav.Link href="#link">Getting Started</Nav.Link>
+                  <NavDropdown title="Gallery" id="basic-nav-dropdown">
                     <NavDropdown.Item>Action</NavDropdown.Item>
                     <NavDropdown.Item>Another action</NavDropdown.Item>
                     <NavDropdown.Item>Something</NavDropdown.Item>
@@ -73,36 +73,14 @@ function App() {
       </header>
       <div className="container">
         <div className="row mt-5">
-            <div className="col-lg-4 mb-4 grid-margin">
+            <div className="col-lg-12 mb-12 grid-margin discussion-board">
               <div className="card h-100">
-                  <h4 className="card-header">Card Title</h4>
+                  <h4 className="card-header">Post your image</h4>
                   <div className="card-body">
-                    <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+                    <p className="card-text">Post your images here to be annotated by our machine-learning backend.</p>
                   </div>
                   <div className="card-footer">
-                    <Button variant="btn btn-primary">Learn More</Button>
-                  </div>
-              </div>
-            </div>
-            <div className="col-lg-4 mb-4 grid-margin">
-              <div className="card h-100">
-                  <h4 className="card-header">Card Title</h4>
-                  <div className="card-body">
-                    <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-                  </div>
-                  <div className="card-footer">
-                    <Button variant="btn btn-primary">Learn More</Button>
-                  </div>
-              </div>
-            </div>
-            <div className="col-lg-4 mb-4 grid-margin">
-              <div className="card h-100">
-                  <h4 className="card-header">Card Title</h4>
-                  <div className="card-body">
-                    <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-                  </div>
-                  <div className="card-footer">
-                    <Button variant="btn btn-primary">Learn More</Button>
+                    <Button variant="btn btn-primary">Upload</Button>
                   </div>
               </div>
             </div>
@@ -110,32 +88,28 @@ function App() {
         <div className="row mb-4">
           <div className="col-sm-12 grid-margin">
             <div className="card h-100">
-              <h4 className="card-header">Table</h4>
+              <h4 className="card-header">Recent Discussions</h4>
               <div className="card-body">
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
+                      <th>Date</th>
+                      <th>User</th>
+                      <th>Topic</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>1</td>
                       <td>Mark</td>
                       <td>Otto</td>
                       <td>@mdo</td>
                     </tr>
                     <tr>
-                      <td>2</td>
                       <td>Jacob</td>
                       <td>Thornton</td>
                       <td>@fat</td>
                     </tr>
                     <tr>
-                      <td>3</td>
                       <td colSpan="2">Larry the Bird</td>
                       <td>@twitter</td>
                     </tr>
