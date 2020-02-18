@@ -42,8 +42,8 @@ export default function App() {
                     <Link to="/about">About</Link>
                   </Nav.Link>
               </Nav>
-              <Form inline className="App-search-bar">
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <Form inline className="App-search-form">
+                <FormControl type="text" placeholder="Search" className="mr-sm-2 App-search-bar" />
                 <Button variant="outline-success">Search</Button>
               </Form>
               <Form inline>

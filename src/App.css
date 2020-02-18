@@ -41,8 +41,13 @@
   padding-bottom: 2em;
 }
 
-.App-search-bar {
+.App-search-form {
   margin: auto;
+  margin-left: 61px !important;
+}
+
+.App-search-bar {
+  width: 40vw !important;
 }
 
 .App-header-btns {
