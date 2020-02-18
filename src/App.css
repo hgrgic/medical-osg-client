@@ -40,3 +40,26 @@
 .discussion-board {
   padding-bottom: 2em;
 }
+
+.App-search-bar {
+  margin: auto;
+}
+
+.App-header-btns {
+  margin-right: 1em;
+}
+
+.App-intro-banner {
+  width: 60vw;
+}
+
+.App-intro-jumbo {
+  width: 60vw;
+}
+
+.App-intro-container {
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}

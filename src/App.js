@@ -1,76 +1,82 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Navbar, Nav, NavDropdown, Form,  FormControl, Button, Table} from 'react-bootstrap';
+import { 
+  Navbar,
+  Nav, 
+  NavDropdown, 
+  Form,  
+  FormControl, 
+  Button, 
+  Table, 
+  Jumbotron, 
+  Image,
+  Container,
+  Row
+} from 'react-bootstrap';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-// can define components by using functions as below
+// Defining application routes
 
-function Welcome(props) {
-  return <h1>Hello, {props.name}</h1>;
-}
 
-// defining state by converting function to a class
+// React Router  
 
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
-  }
-
-  // life cycle methods for component mounting/unmounting
-
-  componentDidMount() { 
-    this.timeID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>It is {this.state.date.toLocaleTimeString()}.</h1>
-      </div>
-    );
-  }
-}
-
-function App() {
+export default function App() {
   return (
-    <div className="App">
+    <Router>
       <header>
         <Navbar expand="lg" variant="dark" bg="dark">
-          <Navbar.Brand href="#home">Discussion Platform</Navbar.Brand>
+          <Navbar.Brand>MedAssistant</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                  <Nav.Link href="#home">Home</Nav.Link>
-                  <Nav.Link href="#link">Getting Started</Nav.Link>
-                  <NavDropdown title="Gallery" id="basic-nav-dropdown">
-                    <NavDropdown.Item>Action</NavDropdown.Item>
-                    <NavDropdown.Item>Another action</NavDropdown.Item>
-                    <NavDropdown.Item>Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
+                  <Nav.Link>
+                    <Link to="/platform">Platform</Link>
+                    </Nav.Link>
+                  <Nav.Link>
+                    <Link to="/about">About</Link>
+                  </Nav.Link>
               </Nav>
-              <Form inline>
+              <Form inline className="App-search-bar">
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                 <Button variant="outline-success">Search</Button>
+              </Form>
+              <Form inline>
+              <Button variant="primary" className="App-header-btns">Sign Up</Button>
+              <Button variant="success" className="App-header-btns">Log In</Button>
               </Form>
           </Navbar.Collapse>
         </Navbar>
       </header>
+    
+  {/*Application URLs*/}
+
+    <Switch>
+
+      <Route path="/platform">
+        <Platform />
+      </Route>
+
+      <Route path="/about">
+        <About />
+      </Route>
+
+      <Route path="/">
+        <Home />
+      </Route>
+    </Switch>
+  </Router>
+  );
+}
+
+function Platform() {
+  return (
+  <div className="App">
       <div className="container">
         <div className="row mt-5">
             <div className="col-lg-12 mb-12 grid-margin discussion-board">
@@ -123,4 +129,36 @@ function App() {
     </div>
   );
 }
-export default App;
+
+function About() {
+  return (
+  <div className="App">
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12">
+          <h1>About Page</h1>
+          <p>Content for about page.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+        );
+}
+
+function Home() {
+  return (
+    
+    <Container className="App-intro-container">
+    <Image src="./Medical-Engineering-Banner.jpg" className="App-intro-banner"></Image>
+    <Jumbotron className="App-intro-jumbo">
+      <h1>AI for Medical Professionals</h1>
+      <p>Welcome to MedAssistant, the first crowdsourced machine learning tool for medical professionals around the world.</p>
+    <p>
+      <Button variant="primary">Learn more</Button>
+    </p>
+    </Jumbotron>
+    </Container>
+  
+  
+  );
+}
