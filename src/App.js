@@ -12,6 +12,7 @@ import {
   Jumbotron, 
   Image,
   Container,
+  Modal,
   Row
 } from 'react-bootstrap';
 import {
@@ -20,6 +21,71 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
+
+// Modal Components
+
+function SignUpModal() {
+  const [show, setShow] = React.useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <>
+      <Button variant="primary" onClick={handleShow} className="App-header-btns">
+        Signup
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Form for Signup goes here.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
+// Modal Component
+
+function LoginModal() {
+  const [show, setShow] = React.useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <>
+      <Button variant="primary" onClick={handleShow} className="App-header-btns">
+        Login
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Form for Login Goes Here.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
 
 // Defining application routes
 
@@ -47,9 +113,10 @@ export default function App() {
                 <Button variant="outline-success">Search</Button>
               </Form>
               <Form inline>
-              <Button variant="primary" className="App-header-btns">Sign Up</Button>
-              <Button variant="success" className="App-header-btns">Log In</Button>
+              <SignUpModal />
+              <LoginModal />
               </Form>
+              
           </Navbar.Collapse>
         </Navbar>
       </header>
