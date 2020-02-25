@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Popup from './components/Popup';  
 import logo from './logo.svg';
 import './App.css';
 import { 
@@ -23,6 +24,7 @@ import {
 } from "react-router-dom";
 
 
+
 // Modal Components
 
 function SignUpModal() {
@@ -39,15 +41,61 @@ function SignUpModal() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Sign up</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Form for Signup goes here.</Modal.Body>
+        <Modal.Body>
+        <div class="container login-container">
+            <div class="row">
+                <div class="col-md-12 login-form-1">
+                <h3>Register to MedAssistant</h3>
+                    <form>
+                        <div class="form-group">
+                         <label class="control-label" for=
+                            "inputHospitalName">Hospital Name</label>
+                            <input type="text" class="form-control" placeholder="E.g. MedAssistant *" value="" />
+                        </div>
+                        <div class="form-group">
+                         <label class="control-label" for=
+                            "inputSpecialization">Medical Specialty</label>
+                            <input type="text" class="form-control" placeholder="E.g.  Oncology *" value="" />
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label" for=
+                            "inputFirstName">First Name</label>
+                            <input type="text" class="form-control" placeholder="E.g. John *" value="" />
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label" for=
+                            "inputLastName">Last Name</label>
+                            <input type="text" class="form-control" placeholder="E.g. Doe *" value="" />
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label" for=
+                            "inputEmail">Email</label>
+                            <input type="text" class="form-control" placeholder="E.g. med@med.com *" value="" />
+                        </div>
+                        <div class="form-group">
+                         <label class="control-label" for=
+                            "inputUsername">Username</label>
+                            <input type="text" class="form-control" placeholder="E.g. Doctor1 *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for=
+                            "inputPassword">Password</label>
+                            <input type="password" class="form-control" placeholder="Min. 8 Characters *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btnSubmit" value="Sign Up" />
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
@@ -71,21 +119,69 @@ function LoginModal() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Login</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Form for Login Goes Here.</Modal.Body>
+        <Modal.Body>
+          <div class="container login-container">
+            <div class="row">
+                <div class="col-md-12 login-form-1">
+                <h3>Welcome back!</h3>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Your Email *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Your Password *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btnSubmit" value="Login" />
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="ForgetPwd">Forget Password?</a>
+                        </div>
+                        <div variant = "danger" class="alert alert-error">
+                          <button class="close" data-dismiss="alert" type=
+                          "button">×</button> <strong>Wrong Credentials </strong>
+                      </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+        </Modal.Body>
         <Modal.Footer>
+
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 }
+
+// Alert Example 
+  // function AlertDismissibleExample() {
+  //   const [show, setShow] = useState(true);
+  
+  //   if (show) {
+  //     return (
+  //       <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+  //         <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+  //         <p>
+  //           Change this and that and try again. Duis mollis, est non commodo
+  //           luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+  //           Cras mattis consectetur purus sit amet fermentum.
+  //         </p>
+  //       </Alert>
+  //     );
+  //   }
+  //   return <Button onClick={() => setShow(true)}>Show Alert</Button>;
+  // }
+  
+  // render(<AlertDismissibleExample />);
 
 // Defining application routes
 
