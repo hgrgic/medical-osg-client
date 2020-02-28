@@ -121,3 +121,13 @@
     font-weight: 600;
     text-decoration: none;
 }
+
+.aboutHeader {
+  margin-top: 1em;
+}
+
+.aboutText {
+  text-align: justify;
+  font-size: 1.2em;
+  line-height: 2;
+}
