@@ -1,3 +1,14 @@
+# Getting started
+
+To run development server, use dockerised backend and run locally for testing.
+
+```bash
+docker pull hgrgic/osg-core:1.0
+docker run -p 3001:3001 -d hgrgic/osg-core:1.0
+```
+
+# React Documentation
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
