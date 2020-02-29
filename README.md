@@ -1,11 +1,10 @@
 # Getting started
 
-To run development server, use dockerised backend and run locally for testing.
+First make sure development server is running, refer to README inside `osg-core`.
 
-```bash
-docker pull hgrgic/osg-core:1.0
-docker run -p 3001:3001 -d hgrgic/osg-core:1.0
-```
+Then run the react application `npm start` inside the root `client` folder.
+
+To view the platform navigate to the following url `localhost:3000/platform`.
 
 # React Documentation
 

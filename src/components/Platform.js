@@ -3,77 +3,12 @@ import {
     Button, 
     Navbar, 
     Form,  
-    FormControl,
-  } from 'react-bootstrap';
+    FormControl
+  } from "react-bootstrap";
 
 import {Link} from "react-router-dom";
 
-class DiscussionItems extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: []
-    };
-  }
-
-  componentDidMount() {
-    fetch("http://localhost:3001/discussion")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
-
-  render () {
-    const { error, isLoaded, items } = this.state;
-    if (error) {
-      console.log(error)
-      return <p>An error has occured.</p>;
-    } else if (!isLoaded) {
-      return <p>Loading...</p>;
-    } else {
-      return (
-        <ul>
-          {items.map(item => (
-            <li>{item.title}</li>
-        ))}
-        </ul>
-      );
-    }
-  }
-}
-
-
-
-
-    // <div class="card">
-    //   <div class="card-body">
-    //     <h5 class="card-title">Test</h5>
-    //     <h6 class="card-subtitle mb-2 text-muted">Test</h6>
-    //     <p class="card-text">Test</p>
-    //   </div>
-    // </div>
-
-
- 
-  
-
+import {FetchDiscussionItems} from "./Discussion"
 
 const PlatformHeader = () => {
   return (
@@ -106,7 +41,7 @@ class PlatformPage extends React.Component {
                   <div className="card h-100 discussion-board">
                     <h4 className="card-header">Recent Discussions</h4>
                     <div className="card-body">
-                      <DiscussionItems />
+                      <FetchDiscussionItems />
                     </div>
                   </div>
                 </div>
