@@ -134,3 +134,47 @@
 .discussion-board {
   margin-top: 1em;
 }
+
+.discussion-card {
+  margin-bottom: 1em;
+}
+
+.open-discussion-card {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.discussion-image-holder > img {
+  padding: 0.25em;
+}
+
+.close-discussion-btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.comment-container {
+  border: none !important;
+}
+
+.top-border {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* SPINNER */
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+  margin-top: 2em;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,13 +1,15 @@
 import React from 'react';
 import {HomePage, AboutPage} from './components/Home';
-import PlatformPage from './components/Platform';
+import {PlatformPage, DiscussionPage} from './components/Platform';
 import './App.css';
 
 import {
   BrowserRouter,
   Switch,
-  Route
+  Route,
+  useParams
 } from "react-router-dom";
+import { ViewDiscussion } from './components/Discussion';
 
 // React Router (Application URLs)
 
@@ -15,15 +17,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/platform">
+        <Route exact path="/platform">
           <PlatformPage />
         </Route>
-        <Route path="/about">
+        <Route exact path="/about">
           <AboutPage />
         </Route>
-        <Route path="/">
+        <Route exact path="/">
           <HomePage />
         </Route>
+        <Route exact path="/discussion/:id" component={DiscussionPage} />
       </Switch>
     </BrowserRouter>
   );
