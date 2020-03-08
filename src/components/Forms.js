@@ -82,51 +82,62 @@ class OpenNewDiscussionForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+            sent: false
+        }
     }
 
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        data.status = "open";
 
         fetch('http://localhost:3001/discussion/open', {
             method: 'POST',
             body: data
         });
 
-        //window.location.replace("http://localhost:3000/platform");
+        this.setState({
+            sent: true
+        });
     }
 
     render() {
-        return (
+
+        let sent = this.state.sent;
+
+        if (!sent) {
+            return (
+                <form onSubmit={this.handleSubmit}>
+                <div class="form-group">
+                    <label htmlFor="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter discussion title" required/>
+                    
+                    <label htmlFor="status"></label>
+                    <input id="status" name="status" type="hidden" value="open" />
+                </div>
         
-            <form onSubmit={this.handleSubmit}>
-            <div class="form-group">
-                <label htmlFor="title">Title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Enter discussion title" required/>
+                <div class="form-group">
+                    <label htmlFor="owner">Name</label>
+                    <input type="text" class="form-control" id="owner" name="owner" placeholder="Enter your name" required />
+                </div>
                 
-                <label htmlFor="status"></label>
-                <input id="status" name="status" type="hidden" value="open" />
-            </div>
-    
-            <div class="form-group">
-                <label htmlFor="owner">Name</label>
-                <input type="text" class="form-control" id="owner" name="owner" placeholder="Enter your name" required />
-            </div>
-            
-            <div class="form-group">
-                <label htmlFor="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-            </div>
-    
-            <div class="form-group">
-                <label htmlFor="files">Upload medical images</label>
-                <input type="file" class="form-control-file" id="files" name="files" multiple required />
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Discussion</button>
-            </form>
-           
-        );
+                <div class="form-group">
+                    <label htmlFor="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+        
+                <div class="form-group">
+                    <label htmlFor="files">Upload medical images</label>
+                    <input type="file" class="form-control-file" id="files" name="files" multiple required />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Discussion</button>
+                </form>
+            );
+        } else {
+            return (
+                <p>Thank you we have received your request.</p>
+            );
+        }
     }
 }
   
