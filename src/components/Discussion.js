@@ -6,6 +6,8 @@ import {
     Badge
 } from 'react-bootstrap';
 
+import {OpenNewDiscussionForm} from './Forms';
+
 const DiscussionStatus = ( {discussion} ) => {
     if (discussion == "open") {
       return <Badge variant="success">open</Badge>;
@@ -191,24 +193,12 @@ class ViewDiscussion extends React.Component {
   }
 }
 
-
-//TODO: Implement upload images page under each discussion
-const UploadImage = () => {
+class NewDiscussion extends React.Component {
+  render() {
     return (
-        <div className="row mt-5">
-            <div className="col-lg-12 mb-12 grid-margin discussion-board">
-                <div className="card h-100">
-                    <h4 className="card-header">Post your image</h4>
-                    <div className="card-body">
-                    <p className="card-text">Post your images here to be annotated by our machine-learning backend.</p>
-                    </div>
-                    <div className="card-footer">
-                    <Button variant="btn btn-primary">Upload</Button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <OpenNewDiscussionForm />
     );
+  }
 }
 
-export {UploadImage, FetchDiscussionItems, ViewDiscussion};
+export {FetchDiscussionItems, ViewDiscussion, NewDiscussion};

@@ -1,6 +1,6 @@
 import React from 'react';
 import {HomePage, AboutPage} from './components/Home';
-import {PlatformPage, DiscussionPage} from './components/Platform';
+import {PlatformPage, DiscussionPage, NewDiscussionPage} from './components/Platform';
 import './App.css';
 
 import {
@@ -9,7 +9,6 @@ import {
   Route,
   useParams
 } from "react-router-dom";
-import { ViewDiscussion } from './components/Discussion';
 
 // React Router (Application URLs)
 
@@ -27,6 +26,9 @@ export default function App() {
           <HomePage />
         </Route>
         <Route exact path="/discussion/:id" component={DiscussionPage} />
+        <Route exact path="/platform/new-discussion">
+          <NewDiscussionPage />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

@@ -9,7 +9,7 @@ import {
 
 import {Link} from "react-router-dom";
 
-import {FetchDiscussionItems, ViewDiscussion} from "./Discussion"
+import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 
 const PlatformHeader = ({ discussionPage }) => {
   if (!discussionPage) {
@@ -41,8 +41,24 @@ const PlatformHeader = ({ discussionPage }) => {
             </Navbar.Collapse>
         </Navbar>
     );
-  }
-  
+  } 
+}
+
+const ComponentContainer = (props) => {
+  return (
+    <div className="container">
+      <div className="row mb-4">
+        <div className="col-sm-12 grid-margin">
+          <div className="card h-100 discussion-board">
+            <h4 className="card-header">{props.title}</h4>
+            <div className="card-body">
+              {props.children}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 class PlatformPage extends React.Component {
@@ -53,18 +69,9 @@ class PlatformPage extends React.Component {
         return (
           <React.Fragment>
             <PlatformHeader />
-            <div className="container">
-              <div className="row mb-4">
-                <div className="col-sm-12 grid-margin">
-                  <div className="card h-100 discussion-board">
-                    <h4 className="card-header">Recent Discussions</h4>
-                    <div className="card-body">
-                      <FetchDiscussionItems />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ComponentContainer title='Recent Discussion'>
+              <FetchDiscussionItems />
+            </ComponentContainer> 
           </React.Fragment>
         );
     }
@@ -85,4 +92,15 @@ class DiscussionPage extends React.Component {
   }
 }
 
-export {PlatformPage, DiscussionPage};
+const NewDiscussionPage = () => {
+  return (
+    <React.Fragment>
+    <PlatformHeader discussionPage={true} />
+    <ComponentContainer title='Open New Discussion'>
+      <NewDiscussion />
+    </ComponentContainer>
+    </React.Fragment>
+  );
+}
+
+export {PlatformPage, DiscussionPage, NewDiscussionPage};
