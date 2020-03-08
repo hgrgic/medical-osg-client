@@ -140,6 +140,5 @@ class OpenNewDiscussionForm extends React.Component {
         }
     }
 }
-  
 
 export {SignUpForm, LoginForm, OpenNewDiscussionForm};

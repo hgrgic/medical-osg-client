@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { 
     Button, 
     Nav, 
     Navbar, 
     Form,  
-    FormControl
+    FormControl,
+    NavDropdown
   } from "react-bootstrap";
 
 import {Link} from "react-router-dom";
@@ -14,9 +16,14 @@ import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 const PlatformHeader = ({ discussionPage }) => {
   if (!discussionPage) {
     return (
-      <header>
+      <header class="platform-navbar-fixed">
         <Navbar expand="lg" variant="dark" bg="dark">
             <Navbar.Brand>MedAssistant</Navbar.Brand>
+            <NavDropdown title="Actions" id="nav-dropdown">
+            
+                <NavDropdown.Item href="/platform/new-discussion">Open New Discussion</NavDropdown.Item>
+            
+            </NavDropdown>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Form inline className="App-search-form">
