@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { 
-    Button, 
     Nav, 
     Navbar, 
-    Form,  
-    FormControl,
     NavDropdown
   } from "react-bootstrap";
+
+import {SearchDiscussionForm} from "./Forms"
 
 import {Link} from "react-router-dom";
 
@@ -26,10 +25,7 @@ const PlatformHeader = ({ discussionPage }) => {
             </NavDropdown>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Form inline className="App-search-form">
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2 App-search-bar" />
-                    <Button variant="outline-success">Search</Button>
-                </Form>
+                <SearchDiscussionForm />
             </Navbar.Collapse>
         </Navbar>
     </header>
