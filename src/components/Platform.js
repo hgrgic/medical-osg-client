@@ -13,7 +13,14 @@ import {Link} from "react-router-dom";
 
 import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 
+
+
+
 const PlatformHeader = ({ discussionPage }) => {
+
+
+
+
   if (!discussionPage) {
     return (
       <header class="platform-navbar-fixed">
@@ -31,6 +38,7 @@ const PlatformHeader = ({ discussionPage }) => {
                     <Button variant="outline-success">Search</Button>
                 </Form>
             </Navbar.Collapse>
+            <a className="btn btn-primary" href={"/"} >Sign out</a>
         </Navbar>
     </header>
     );
