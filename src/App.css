@@ -39,6 +39,7 @@
 
 .App-search-form {
   margin: auto;
+  margin-bottom: 1em;
 }
 
 .App-search-bar {
@@ -163,6 +164,11 @@
   position: fixed;
   width: 100vw;
   z-index: 999;
+}
+
+.submit-discussion-btn {
+  position: absolute;
+  bottom: 4.5em;
 }
 
 /* SPINNER */

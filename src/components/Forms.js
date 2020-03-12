@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+    Form,  
+    FormControl,
+    Button
+} from "react-bootstrap";
+
 const SignUpForm = () => {
     return (
         <div class="container login-container">
@@ -90,7 +96,7 @@ class OpenNewDiscussionForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-
+        
         fetch('http://localhost:3001/discussion/open', {
             method: 'POST',
             body: data
@@ -130,7 +136,7 @@ class OpenNewDiscussionForm extends React.Component {
                     <label htmlFor="files">Upload medical images</label>
                     <input type="file" class="form-control-file" id="files" name="files" multiple required />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit Discussion</button>
+                <button type="submit" class="btn btn-primary submit-discussion-btn">Submit Discussion</button>
                 </form>
             );
         } else {
