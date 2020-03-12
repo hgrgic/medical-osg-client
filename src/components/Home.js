@@ -15,6 +15,20 @@ import {
 
 import {Link} from "react-router-dom";
 
+// Cognito imports
+import { connect } from 'react-redux';
+import cognito from '../auth/cognitoFunctions';
+import request from 'request';
+import appConfig from '../aws-config/aws-cognito.json';
+
+// Button redirect
+import { useHistory } from 'react-router-dom';
+
+
+const mapStateToProps = state => {
+  return { session: state.session }
+}
+
 // Modal Components
 
 function SignUpModal() {
@@ -25,7 +39,8 @@ function SignUpModal() {
   
     return (
       <React.Fragment>
-          <Button variant="primary" onClick={handleShow} className="App-header-btns">Signup</Button>
+        
+          <a className="signup btn btn-primary" href={cognito.getCognitoSignUpUri()} >Sign up</a>
           <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                   <Modal.Title>Sign up</Modal.Title>
@@ -42,16 +57,18 @@ function SignUpModal() {
   }
   
   // Login Modal Component
-  
+
 const LoginModal = () => {
     
     const [show, setShow] = React.useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+
   
     return (
         <React.Fragment>
-            <Button variant="primary" onClick={handleShow} className="App-header-btns">Login</Button>
+             <a className="btn btn-primary" href={cognito.getCognitoSignInUri()}>Sign in</a>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Login</Modal.Title>
@@ -130,3 +147,4 @@ const AboutPage = () => {
     }
 
 export {HomePage, AboutPage};
+export default connect(mapStateToProps)(HomePage)
