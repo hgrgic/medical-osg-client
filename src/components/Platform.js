@@ -10,6 +10,8 @@ import {Link} from "react-router-dom";
 
 import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 
+import {UserInformation} from "./User"
+
 class PlatformPage extends React.Component {
   constructor(props) {
     super(props);
@@ -53,6 +55,7 @@ class PlatformHeader extends React.Component {
               <NavDropdown title="Actions" id="nav-dropdown">
                   <NavDropdown.Item href="/platform/new-discussion">Open New Discussion</NavDropdown.Item>
               </NavDropdown>
+              <UserInformation />
           </Navbar>
       </header>
       );
@@ -67,6 +70,7 @@ class PlatformHeader extends React.Component {
             <Link to="/platform">Platform</Link>
           </Nav.Link>
         </Nav>
+        <UserInformation />
         </Navbar.Collapse>
       </Navbar>
       );
