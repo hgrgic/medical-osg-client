@@ -6,45 +6,24 @@ import {
     NavDropdown
   } from "react-bootstrap";
 
-import {SearchDiscussionForm} from "./Forms"
-
 import {Link} from "react-router-dom";
 
 import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 
-const PlatformHeader = ({ discussionPage }) => {
-  if (!discussionPage) {
-    return (
-      <header class="platform-navbar-fixed">
-        <Navbar expand="lg" variant="dark" bg="dark">
-            <Navbar.Brand>MedAssistant</Navbar.Brand>
-            <NavDropdown title="Actions" id="nav-dropdown">
-            
-                <NavDropdown.Item href="/platform/new-discussion">Open New Discussion</NavDropdown.Item>
-            
-            </NavDropdown>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <SearchDiscussionForm />
-            </Navbar.Collapse>
-        </Navbar>
-    </header>
-    );
-  } else {
-    return (
-      <Navbar expand="lg" variant="dark" bg="dark">
-            <Navbar.Brand>MedAssistant</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link>
-                <Link to="/platform">Platform</Link>
-              </Nav.Link>
-            </Nav>
-            </Navbar.Collapse>
-        </Navbar>
-    );
-  } 
+class PlatformPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+    render() {
+        return (
+          <React.Fragment>
+            <PlatformHeader />
+            <ComponentContainer title='Recent Discussion'>
+              <FetchDiscussionItems />
+            </ComponentContainer> 
+          </React.Fragment>
+        );
+    }
 }
 
 const ComponentContainer = (props) => {
@@ -64,26 +43,40 @@ const ComponentContainer = (props) => {
   );
 }
 
-class PlatformPage extends React.Component {
-  constructor(props) {
-    super(props);
+class PlatformHeader extends React.Component {
+  render () {
+    if (!this.props.discussionPage) {
+      return (
+        <header class="platform-navbar-fixed">
+          <Navbar expand="lg" variant="dark" bg="dark">
+              <Navbar.Brand>MedAssistant</Navbar.Brand>
+              <NavDropdown title="Actions" id="nav-dropdown">
+                  <NavDropdown.Item href="/platform/new-discussion">Open New Discussion</NavDropdown.Item>
+              </NavDropdown>
+          </Navbar>
+      </header>
+      );
+    } else {
+      return (
+      <Navbar expand="lg" variant="dark" bg="dark">
+        <Navbar.Brand>MedAssistant</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link>
+            <Link to="/platform">Platform</Link>
+          </Nav.Link>
+        </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      );
+    } 
   }
-    render() {
-        return (
-          <React.Fragment>
-            <PlatformHeader />
-            <ComponentContainer title='Recent Discussion'>
-              <FetchDiscussionItems />
-            </ComponentContainer> 
-          </React.Fragment>
-        );
-    }
 }
 
 class DiscussionPage extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
   }
   render () {
     return (

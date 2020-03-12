@@ -3,10 +3,20 @@ import {Link} from "react-router-dom";
 
 import { 
     Button,
-    Badge
+    Badge,
+    Spinner
 } from 'react-bootstrap';
 
 import {OpenNewDiscussionForm} from './Forms';
+
+
+const LoadingSpinner = () => {
+  return (
+    <Spinner animation="border" role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
+  );
+}
 
 const DiscussionStatus = ( {discussion} ) => {
     if (discussion == "open") {
@@ -24,9 +34,54 @@ class FetchDiscussionItems extends React.Component {
         this.state = {
             loading: true,
             error: false,
-            discussions: []
+            discussions: [],
+            searching: false,
+            noContentFound: false
         };
+        this.handleSearch = this.handleSearch.bind(this);
     }
+    
+    setSearchStatus() {
+      this.setState({searching: true});
+    }
+
+
+    handleSearch(event) {
+      event.preventDefault();
+
+      this.setSearchStatus();
+      
+      const query = new FormData(event.target);
+      
+      fetch('http://localhost:3001/search', {
+          method: 'POST',
+          body: query
+      })
+      .then(
+        function(response) {
+            return response.json()
+          }
+        )
+      .then(
+          (data) => {
+              this.setState({
+                  discussions: data,
+                  loading: false,
+                  searching: false
+              });
+          },
+          (error) => {
+            if (error) {
+              this.setState({
+                loading: false,
+                searching: false,
+                error: true
+            });
+              alert('No matching records found, please try again.')
+            }
+          }
+      )
+  }
   
     async componentDidMount() {
       const url = "http://localhost:3001/discussion";
@@ -55,22 +110,32 @@ class FetchDiscussionItems extends React.Component {
       let error = this.state.error;
       let loading = this.state.loading;
       let discussions = this.state.discussions;
-  
+      let searching = this.state.searching;
+
       if (loading && !error) {
         return (
-          <div>
-            <p>Data is loading...</p>
+          <div class="text-center">
+            <LoadingSpinner />
           </div>
         );
-      } else if (loading && error) {
+      } else if (searching) {
         return (
-          <div>
-            <p>Data not loaded due to an error.</p>
+          <div class="text-center">
+            <LoadingSpinner />
           </div>
         );
       } else {
         return (
           <div>
+
+            <div class="text-center">
+            <form onSubmit={this.handleSearch} inline class="App-search-form">
+              <label htmlFor="query"></label>
+              <input type="text" class="mr-sm-2 App-search-bar" id="query" name="query" placeholder="Search by title or description" inline required/>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            </div>
+
             {discussions.map((discussion) => (
               <div class="card discussion-card">
                 <div class="card-body">
@@ -149,8 +214,8 @@ class ViewDiscussion extends React.Component {
 
     if (loading && !error) {
       return (
-        <div class="container text-center">
-          <div class="loader"></div> 
+        <div class="container text-center" style={{'margin-top': 1 + 'em'}}>
+          <LoadingSpinner /> 
         </div>
       );
     } else if (loading && error) {

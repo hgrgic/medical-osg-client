@@ -136,7 +136,7 @@ class OpenNewDiscussionForm extends React.Component {
                     <label htmlFor="files">Upload medical images</label>
                     <input type="file" class="form-control-file" id="files" name="files" multiple required />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit Discussion</button>
+                <button type="submit" class="btn btn-primary submit-discussion-btn">Submit Discussion</button>
                 </form>
             );
         } else {
@@ -147,43 +147,4 @@ class OpenNewDiscussionForm extends React.Component {
     }
 }
 
-class SearchDiscussionForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.state = {
-            searchResults: []
-        }
-    }
-
-    handleSearch(event) {
-        event.preventDefault();
-        const query = new FormData(event.target);
-        
-        fetch('http://localhost:3001/search', {
-            method: 'POST',
-            body: query
-        })
-        .then(response => response.json())
-        .then(
-            (data) => {
-                this.setState({
-                    searchResults: data
-                });
-            }
-        )
-    }
-
-    render() {
-        return (
-        <form onSubmit={this.handleSearch} inline class="App-search-form">
-            <label htmlFor="query"></label>
-            <input type="text" class="mr-sm-2 App-search-bar" id="query" name="query" placeholder="Enter discussion title" inline required/>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-        ); 
-    }
-}
-
-
-export {SignUpForm, LoginForm, OpenNewDiscussionForm, SearchDiscussionForm};
+export {SignUpForm, LoginForm, OpenNewDiscussionForm};
