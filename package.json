@@ -11,6 +11,7 @@
     "amazon-cognito-identity-js": "^3.2.5",
     "aws-sdk": "^2.638.0",
     "bootstrap": "^4.4.1",
+    "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.3",
     "react": "^16.12.0",

@@ -47,13 +47,15 @@ class FetchDiscussionItems extends React.Component {
 
 
     handleSearch(event) {
+      const url = process.env.REACT_APP_API_URL + 'search'
+
       event.preventDefault();
 
       this.setSearchStatus();
       
       const query = new FormData(event.target);
       
-      fetch('http://localhost:3001/search', {
+      fetch(url, {
           method: 'POST',
           body: query
       })
@@ -84,7 +86,7 @@ class FetchDiscussionItems extends React.Component {
   }
   
     async componentDidMount() {
-      const url = "http://localhost:3001/discussion";
+      const url = process.env.REACT_APP_API_URL + 'discussion';
       
       await fetch(url)
       .then(response => response.json())
@@ -142,7 +144,6 @@ class FetchDiscussionItems extends React.Component {
                   <h5 class="card-title">{discussion.title} <DiscussionStatus discussion={discussion.status} /></h5>
                   <h6 class="card-subtitle mb-2 text-muted">{discussion.owner}</h6>
                   <p class="card-text">{discussion.description}</p>
-                  <p class="card-text">{discussion.discussionId}</p>
                   <Link to={"discussion/" + discussion.discussionId}>
                     <Button variant="primary">View Discussion</Button>
                   </Link>
@@ -170,7 +171,7 @@ class ViewDiscussion extends React.Component {
   }
 
   async componentDidMount() {
-    const url = "http://localhost:3001/discussion/" + this.state.id;
+    const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
     
     await fetch(url)
     .then(response => response.json())
@@ -232,13 +233,7 @@ class ViewDiscussion extends React.Component {
       <div class="container">
         <div class="card open-discussion-card">
           <h5 class="card-header">{discussion.title} <DiscussionStatus discussion={discussion.status} /></h5>
-          <div class="card-body">
-            <div class="discussion-image-holder text-center">
-              <img class="img-fluid rounded" src="https://via.placeholder.com/150"></img>
-              <img class="img-fluid rounded" src="https://via.placeholder.com/150"></img>
-              <img class="img-fluid rounded" src="https://via.placeholder.com/150"></img>
-            </div>
-          </div>
+          <DiscussionImages discussionId={this.state.id}/>
           
           <h5 class="card-header top-border">Description</h5>
           <div class="card-body">
@@ -257,6 +252,52 @@ class ViewDiscussion extends React.Component {
     }
   }
 }
+
+class DiscussionImages extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      images: []
+    };
+  }
+
+  async componentDidMount() {
+    const url = process.env.REACT_APP_API_URL + 'discussion/' + this.props.discussionId; 
+
+    await fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        images: data.files
+      });
+      console.log(this.state.images)
+    },
+    error => {
+      if (error) {
+        this.setState({
+          error: true
+        });
+      }
+      console.log('An error has occurred.')
+    })     
+  }
+
+  render() {
+    let images = this.state.images;
+
+    return (
+    <div class="card-body">
+      <div class="discussion-image-holder text-center">
+        {images.map((image) => (
+          <img class="img-fluid rounded discussion-image" src={process.env.REACT_APP_S3_URL + image} />
+          ))}
+      </div>
+    </div>
+    );
+  }
+
+}
+
 
 class NewDiscussion extends React.Component {
   render() {

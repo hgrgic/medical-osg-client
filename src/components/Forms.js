@@ -1,11 +1,5 @@
 import React from 'react';
 
-import {
-    Form,  
-    FormControl,
-    Button
-} from "react-bootstrap";
-
 const SignUpForm = () => {
     return (
         <div class="container login-container">
@@ -97,7 +91,7 @@ class OpenNewDiscussionForm extends React.Component {
         event.preventDefault();
         const data = new FormData(event.target);
         
-        fetch('http://localhost:3001/discussion/open', {
+        fetch(process.env.REACT_APP_API_URL + 'discussion/open', {
             method: 'POST',
             body: data
         });
