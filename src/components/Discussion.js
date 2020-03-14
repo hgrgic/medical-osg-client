@@ -47,13 +47,15 @@ class FetchDiscussionItems extends React.Component {
 
 
     handleSearch(event) {
+      const url = process.env.REACT_APP_API_URL + 'search'
+
       event.preventDefault();
 
       this.setSearchStatus();
       
       const query = new FormData(event.target);
       
-      fetch('http://localhost:3001/search', {
+      fetch(url, {
           method: 'POST',
           body: query
       })
@@ -84,7 +86,7 @@ class FetchDiscussionItems extends React.Component {
   }
   
     async componentDidMount() {
-      const url = "http://localhost:3001/discussion";
+      const url = process.env.REACT_APP_API_URL + 'discussion';
       
       await fetch(url)
       .then(response => response.json())
@@ -170,7 +172,7 @@ class ViewDiscussion extends React.Component {
   }
 
   async componentDidMount() {
-    const url = "http://localhost:3001/discussion/" + this.state.id;
+    const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
     
     await fetch(url)
     .then(response => response.json())
