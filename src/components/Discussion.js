@@ -7,7 +7,7 @@ import {
     Spinner
 } from 'react-bootstrap';
 
-import {OpenNewDiscussionForm} from './Forms';
+import {OpenNewDiscussionForm, AddComment} from './Forms';
 
 
 const LoadingSpinner = () => {
@@ -166,8 +166,59 @@ class ViewDiscussion extends React.Component {
       discussion: {},
       loading: true,
       comments: [],
-      error: false
+      error: false,
+      testComment: []
     }
+    this.handleComment = this.handleComment.bind(this);
+    this.reloadComments = this.reloadComments.bind(this);
+  }
+
+
+  async reloadComments() {
+    const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
+    
+    await fetch(url)
+    .then(response => response.json())
+    .then(
+      (discussionObject) => {
+        this.setState({
+          comments: discussionObject.comments,
+          loading: false
+        });
+      },
+      (error) => {
+        if (error) {
+          console.log('An error has occurred')
+          this.setState({
+            error: true
+          });
+        }
+      }
+    )  
+  }
+
+  async handleComment(event) {
+    event.preventDefault();
+
+    const commentForm = new FormData(event.target);
+    const comment = commentForm.get('text');
+    const postUrl = process.env.REACT_APP_API_URL + 'comment/add';
+  
+    await fetch(postUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        discussionId: this.state.id,
+        text: comment,
+        user: 'postUser'})
+    })
+    .then(() => {
+      console.log('comment added!')
+      this.reloadComments()
+    });
   }
 
   async componentDidMount() {
@@ -246,7 +297,8 @@ class ViewDiscussion extends React.Component {
               {commentItems}
             </div>
           </div>
-        </div>       
+        </div>
+        <AddComment handleComment={this.handleComment} status={discussion.status}/>
       </div>
     );
     }
