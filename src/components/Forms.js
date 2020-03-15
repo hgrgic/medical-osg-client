@@ -141,4 +141,33 @@ class OpenNewDiscussionForm extends React.Component {
     }
 }
 
-export {SignUpForm, LoginForm, OpenNewDiscussionForm};
+class AddComment extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        if (this.props.status == 'open') {
+            return (
+                <form onSubmit={this.props.handleComment}>
+                    <div class="form-group">
+                        <label htmlFor="text">Add Comment</label>
+                        <textarea class="form-control" id="text" name="text" rows="2" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            );
+        } else {
+            return (
+                <form>
+                    <div class="form-group">
+                        <label>Cannot add comments to a closed discussion.</label>
+                    </div>
+                </form>
+            );
+        }
+        
+    }
+}
+
+export {SignUpForm, LoginForm, OpenNewDiscussionForm, AddComment};
