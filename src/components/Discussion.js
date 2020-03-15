@@ -297,8 +297,8 @@ class ViewDiscussion extends React.Component {
               {commentItems}
             </div>
           </div>
-        </div> 
-        <AddComment handleComment={this.handleComment}/>
+        </div>
+        <AddComment handleComment={this.handleComment} status={discussion.status}/>
       </div>
     );
     }
