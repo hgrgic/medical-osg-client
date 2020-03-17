@@ -1,33 +1,37 @@
 sudo: required
 services:
 - docker
-language: node_js
-node_js:
-- 12
-before_install:
-- docker version
-- docker info
-install:
-- npm install
+matrix:
+  include:
+  - language: node_js
+    node_js:
+    - 12
+    before_install:
+    - docker version
+    - docker info
+    install:
+    - npm install
+    before_script:
+    - node --version
+    - npm --version
+    script:
+    - npm test
+    after_success:
+    - docker build -t filippandza/medical-images-client:latest .
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - docker push filippandza/medical-images-client:latest
+  - language: python
+    python:
+    - 3.6
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_4518de6137f4_key -iv $encrypted_4518de6137f4_iv -in devopslab.pem.enc -out devopslab.pem -d
+    install:
+    - pip install ansible
+    script:
+    - chmod 600 devopslab.pem
+    - ansible-playbook -i ansible/aws_hosts ansible/playbook_cicd.yml
+env:
+  global:
+  - secure: FYQp3TbIJF/HEbhc6bfgj9rCB3y83E/oYdlNTEyDgk/CZofQUx1WWaK0yqO/wKU43C7iDma7MyTTmI2/OzbXj4kgL6iXVedwER4LBP5V+E64gAK9m5cvDIyC1jtJH6cpIhuFeww1XhHadNl+eZTgk0N+PjRhRcR4A1UXWdWZMkZoXuft/hngr7gvmEp/p2nQPShsbzzKq0i86NbOzd/yrlsiLuB97xV+E0xTPYLY/dK8mX9TT1BvF6VIQNhQffPBGAsgKhP16EQKXT5FMLfXH7lkwnAe3tkAySSNFvXgYivljv5mfPdYjF6kqcqR2YJGYCW6p96F1+HTVvGCxOAEx49hwDiFIRTW8XzAR+SOD/xhH8zRsldlENBmfCRLXLIQGZ2pOxStxzq7tr2p8kOei9v2COyI1d1RW47YXyVQJ0JRkSFUmY0He+VC3zhtlyzHyQr0XDcsX2Rkks0HV/EIRTWBDlMRHi0sgxKBksB8gHluriCKll8IDudHOkY3sF9HC8S0+o12kzOQ6aC/WvtTgt7wVTl8bci7dPlGZfh9bftRs8+bdQ6silbbYv4hlVImXxilH5NpBXhfnESbO3YFsZTn24XxTseSiKxORTXTIEMv9AY0YvxRFy6451V7n8DfWcr5V6AY3SRG+RlEHKx1YnwTI7WKE+vYt7OqpdjrVlQ=
+  - secure: fUc8Brx+zGxebpDLqyUI8J3rH5zkK4+2ywJscB6Yy9ZuaqT3AGgydB+j6MJugPdXtUJSC2vvpcMRCqRsi8dhfXQv3aQ8gi3CfDZcuPUjeWvdYImBmdxtRdmMDkP6rrXNVMlDpT+IWnZFt594gfEhSdvcSPihEkHGYu5DA00DAH4Oot5jQ6qLCHVQz5Lbpfp3JEvI/YF2Mm0poFhf24HG/FSpUZipv8CtfTgZtqHRP4FZm7NB799z5dsJ3CrSLJ/0JLvUBU0bj3sQLkoE2Nj5+373B8wG2dGvFThw1FADDd+CYn9j0Mzs+bsNJ+Qs2hN5PifIS/9RQwUxIINzmeK3kuapBbxKGhFbVTM72RHGf3f3jj4UaQYj7emDolHkr7Kqgg0EWyeEl1Hsv7+9iZFi3VdAaAXsvc3jxordVIZ14rn8f4HepGmdPI3kdjhkDzxtCkyek/SK9S6JazOGA/wXdx0W0z8NXaTILrNe5i9kZMtcnzjXFCTlvOm03ucdx3fOO6jZJxtv/Cxyn1Vy5HRP7osBSf6Edf5LD2UxBsTKvZNEszzt2G0qvAP5KF+yJZkOtoBSo4HiDO4mTEhstVaA+9pWYyImPWzD5IoOcMsOCbM1EjRtP+IM4wfKDFe4H7IyBzRxvNlmZ+RmLs7AiGlFMqA3U25A3YVm0l8Tf1cJsnk=
 
-before_script:
-- node --version
-- npm --version
-script:
-- npm test
-#- docker build -t swagger-spring-example:1.0.0 .
-#- docker run --name example_api -d -t -p 127.0.0.1:8080:8080 swagger-spring-example:1.0.0
-#- docker ps
-#- count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8080);
-#  do printf '.' && sleep 3 && count=$((count+1)) && if [ $count -gt 5 ]; then break;
-#  fi; done
-#- docker logs example_api
-#- node_modules/.bin/newman run tests/postman_collection.json -e tests/postman_environment.json
-after_success:
-#- docker login -u $DOCKER_USER -p $DOCKER_PASS
-#- docker tag devops_cloud_lab2/swagger_server devops_cloud_lab2/swagger_server
-#- docker push devops_cloud_lab2/swagger_server
-#env:
-#  global:
-#  - secure: rBqcWpN76HtN815Ojfy6PyfmsmfqJ9Za128QVH9POUqQgRKdNWtMMXubEVx8KFyn0o4F+PY8BzV+3Vic55jNB1LZDU51FeBky5UbkaYtjYYzK9k8MSj3vFG5glb5MkoueQJ+PK0ryvo7HdCCp3vaFVr/WhzHA+Bm4L+GgcuSc5JZvRQFPtii2dPs4BWsG4MzDfK0fXTcPrEy/VsZR15z7f78mruXMPVH8lpwqm3S97ezR7D0moUBjTsgHkGPgvQk/bzWVVkqCpfYWAcEvmwjzosX42+LvhBUtRJrwkUvrntOofql+DjLWeiUcRnmYtixZjTtyD0LgiMsbzX4GmcYs2hkR10lbsm8iiUv6GleUUgh2J2b0ZyDSkA6X5DXYASsk9o+i6cE1dW0jhtIu7BaVHucSn8i+DAZV09m06ITJ1iyTDJGE+B8TKKPAJCp/V42HdbKewauh5w6BHdGKPiidgSsyfC+iSNOtYtol1JEV7pvqcjjkAB4EZi4EjYtXEPs0kAfwZpUk1YH30KN53b//xR+BHJ72VqfwqaXUQZMc0IyKLEVdbanrfmlzfwLtYM7fWsucxi+IpNwrhdWrTYxTRJ8zjh6+6HGbs/+rrxN3CaSE2x6h6hX19sThYq1q4csnNND634FNbkb/jMhlqizTmObozgsl+4v2uvRnM9Thpw=
-# - secure: lSaP8YBoYwlYn0JK1RuYkQYBijLea+7bVmUWXesQGnc/mJ81mKw+qQlYEWaQfYDHToJMt8lsIBtwtAyaAK7PTvVuBig4p0NR+fJdKIEiTK8ORXuGWEaAKk4qLTotAxWvGCy2pZr3YNe6ztJD2e4Vnfaax+WjN5c9pIRpZ+feimIDE0ICz8XRvzaPORmElS0SRiu4YnKpWLCP2/m3aepNap0hanHWc55fqHmW1j4cUfW99Vh/0zhg8d01K9OWGxNH7kxYChY2Z9p3PA/vjviPbm2ky9X/AiMwQ6L5I/PGxB1ws8cLzaZmvBhZMHGRihWtGWUUYldZg68JxDmIjX740vorZQbCZHxLMgM3gJr1gBROTjsRTRBYjydsWIhXmTLdby79Wb/1k9VRLEZk5yI+Q28gvx3gspXZ20b8B4bmFgfJSjx1GTDN7fePoWy/OK7J7MiUVYkYpZOO7uDoO615gH+5U4oGg36X3o4OuUePGLHdIfjWAEJ1oKDRHFbHesnh3jWLWFUQPH+TWeEL+E5xs7sLa4g9vr3ohWpREutRR7ureLhgZQdMfiHmZvO5yVDSEPq8Sb221wM87Dl+fUuBhWXEXxMct3b07e1rby/AN3Z4y4QJpEWNLSU/w1AUN2lhKxXUS9qwyes+4SAKOnX7xMO8Y1PJ4/w+52a1OXqDMho=
