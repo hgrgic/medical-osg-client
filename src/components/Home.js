@@ -31,58 +31,83 @@ const mapStateToProps = state => {
 
 // Modal Components
 
-function SignUpModal() {
-    const [show, setShow] = React.useState(false);
+// function SignUpModal() {
+//     const [show, setShow] = React.useState(false);
   
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+//     const handleClose = () => setShow(false);
+//     const handleShow = () => setShow(true);
   
+//     return (
+//       <React.Fragment>
+        
+//           <a className="signup btn btn-primary" href={cognito.getCognitoSignUpUri()} >Sign up</a>
+//           <Modal show={show} onHide={handleClose}>
+//               <Modal.Header closeButton>
+//                   <Modal.Title>Sign up</Modal.Title>
+//                   </Modal.Header>
+//                   <Modal.Body>
+//                       <SignUpForm />
+//                   </Modal.Body>
+//                   <Modal.Footer>
+//                       <Button variant="secondary" onClick={handleClose}>Close</Button>
+//                   </Modal.Footer>
+//           </Modal>
+//       </React.Fragment>
+//     );
+//   }
+  
+
+
+  function SignUpModal() {
     return (
       <React.Fragment>
-        
           <a className="signup btn btn-primary" href={cognito.getCognitoSignUpUri()} >Sign up</a>
-          <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                  <Modal.Title>Sign up</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                      <SignUpForm />
-                  </Modal.Body>
-                  <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>Close</Button>
-                  </Modal.Footer>
-          </Modal>
       </React.Fragment>
     );
   }
   
+
+
   // Login Modal Component
 
-const LoginModal = () => {
+// const LoginModal = () => {
     
-    const [show, setShow] = React.useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+//     const [show, setShow] = React.useState(false);
+//     const handleClose = () => setShow(false);
+//     const handleShow = () => setShow(true);
 
 
   
+//     return (
+//         <React.Fragment>
+//              <a className="btn btn-primary" href={cognito.getCognitoSignInUri()}>Sign in</a>
+//             <Modal show={show} onHide={handleClose}>
+//                 <Modal.Header closeButton>
+//                     <Modal.Title>Login</Modal.Title>
+//                     </Modal.Header>
+//                     <Modal.Body>
+//                         <LoginForm />
+//                     </Modal.Body>
+//                     <Modal.Footer>
+//                         <Button variant="secondary" onClick={handleClose}>Close</Button>
+//                     </Modal.Footer>
+//             </Modal>
+//         </React.Fragment>
+//         );
+//     }
+
+
+const LoginModal = () => {
+
     return (
         <React.Fragment>
              <a className="btn btn-primary" href={cognito.getCognitoSignInUri()}>Sign in</a>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Login</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <LoginForm />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    </Modal.Footer>
-            </Modal>
+             <a className="Home-link" href="#" onClick={cognito.onSignOut}>Sign out</a>
         </React.Fragment>
         );
     }
+
+
 
 const HomeNavigation = () => {
         return (
@@ -109,6 +134,15 @@ const HomeNavigation = () => {
     }
 
 class HomePage extends React.Component {
+
+    constructor (props) {
+        super(props)
+        this.state = { apiStatus: 'Not called' }
+        console.log(this.props)
+    }
+
+
+
     render() {
         return (
         <React.Fragment>  
@@ -120,11 +154,38 @@ class HomePage extends React.Component {
             
                 <Jumbotron className="App-intro-jumbo">
                 <h1>AI for Medical Professionals</h1>
+
+
+                      <div >
+        <header >
+          { this.props.session.isLoggedIn ? (
+            <div>
+              <p>You are logged in as user {this.props.session.user.userName} ({this.props.session.user.email}).</p>
+              <p></p>
+              <div>
+                <div>API status: {this.state.apiStatus}</div>
+                <div className="Home-api-response">{this.state.apiResponse}</div>
+              </div>
+              <p></p>
+              <a href="#" onClick={this.onSignOut}>Sign out</a>
+            </div>
+          ) : (
+            <div>
+              <p>You are not logged in. {this.props.session.isLoggedIn}</p>
+              <a href={cognito.getCognitoSignInUri()}>Sign in</a>
+            </div>
+          )}
+          </header>
+      </div>
+
+
+
                 <p>Welcome to MedAssistant, the first crowdsourced machine learning tool for medical professionals around the world.</p>
                 <Button variant="primary" href="/about">Learn more</Button>
                 </Jumbotron>
 
             </Container>
+
         </React.Fragment>  
         )
     }
@@ -146,5 +207,6 @@ const AboutPage = () => {
         );
     }
 
-export {HomePage, AboutPage};
 export default connect(mapStateToProps)(HomePage)
+
+// export {HomePage, AboutPage};

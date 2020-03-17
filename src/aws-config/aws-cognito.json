@@ -2,9 +2,9 @@
     "region": "us-east-1",
     "userPool": "us-east-1_DTPSTdXGh",
     "userPoolBaseUri": "https://medassistant-client.auth.us-east-1.amazoncognito.com",
-    "clientId": "2gve6dt4dldp7njb1r8nqib0ja",
-    "callbackUri": "http://localhost:3000/platform",
-    "signoutUri": "http://localhost:3000/logout",
+    "clientId": "5hmq8nk443suifrr1cv62gcsdn",
+    "callbackUri": "http://localhost:3000/callback",
+    "signoutUri": "http://localhost:3000",
     "tokenScopes": [
         "openid",
         "email",

@@ -12,10 +12,29 @@ import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 
 import {UserInformation} from "./User"
 
+// Cognito imports
+import { connect } from 'react-redux';
+import cognito from '../auth/cognitoFunctions';
+import request from 'request';
+import appConfig from '../aws-config/aws-cognito.json';
+
+
+const mapStateToProps = state => {
+  return { session: state.session }
+}
+
+
 class PlatformPage extends React.Component {
   constructor(props) {
     super(props);
+     this.state = { apiStatus: 'Not called' }
   }
+
+  onSignOut = (e) => {
+    e.preventDefault()
+    cognito.signOutCognitoSession()
+  }
+
     render() {
         return (
           <React.Fragment>
@@ -23,6 +42,33 @@ class PlatformPage extends React.Component {
             <ComponentContainer title='Recent Discussion'>
               <FetchDiscussionItems />
             </ComponentContainer> 
+
+
+
+
+      <div >
+        <header >
+          { this.props.session.isLoggedIn ? (
+            <div>
+              <p>You are logged in as user {this.props.session.user.userName} ({this.props.session.user.email}).</p>
+              <p></p>
+              <div>
+                <div>API status: {this.state.apiStatus}</div>
+                <div className="Home-api-response">{this.state.apiResponse}</div>
+              </div>
+              <p></p>
+              <a href="#" onClick={this.onSignOut}>Sign out</a>
+            </div>
+          ) : (
+            <div>
+              <p>You are not logged in.</p>
+              <a href={cognito.getCognitoSignInUri()}>Sign in</a>
+            </div>
+          )}
+          </header>
+      </div>
+
+
           </React.Fragment>
         );
     }
@@ -103,4 +149,8 @@ const NewDiscussionPage = () => {
   );
 }
 
-export {PlatformPage, DiscussionPage, NewDiscussionPage};
+
+export default connect(mapStateToProps)(PlatformPage, DiscussionPage, NewDiscussionPage)
+
+
+// export {PlatformPage, DiscussionPage, NewDiscussionPage};

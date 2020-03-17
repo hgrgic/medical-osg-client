@@ -49,11 +49,13 @@ const parseCognitoWebResponse = (href) => {
     const auth = createCognitoAuth()
 
     // userHandler will trigger the promise
-    auth.userhandler = {
+    auth.userHandler = {
       onSuccess: function (result) {
+        console.log('success ', result)
         resolve(result)
       },
       onFailure: function (err) {
+        console.log('fail  ', err)
         reject(new Error('Failure parsing Cognito web response: ' + err))
       }
     }
@@ -95,6 +97,11 @@ const signOutCognitoSession = () => {
   auth.signOut()
 }
 
+const onSignOut = (e) => {
+    e.preventDefault()
+    this.signOutCognitoSession()
+  }
+
 export default {
   createCognitoAuth,
   createCognitoUser,
@@ -103,5 +110,6 @@ export default {
   getCognitoSignInUri,
   getCognitoSignUpUri,
   parseCognitoWebResponse,
-  signOutCognitoSession
+  signOutCognitoSession,
+  onSignOut
 }
