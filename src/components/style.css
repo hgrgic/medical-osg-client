@@ -23,3 +23,11 @@
 .signup {
  margin-right: 20px;
 }
+
+.signout {
+ margin-top: 5px;
+}
+
+.loggedin {
+ color: white
+}
