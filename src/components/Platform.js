@@ -88,6 +88,7 @@ class DiscussionPage extends React.Component {
     super(props);
   }
   render () {
+    console.log(this.props)
     return (
     <React.Fragment>
       <PlatformHeader discussionPage={true}/>
