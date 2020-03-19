@@ -9,6 +9,9 @@ import {
 
 import {OpenNewDiscussionForm, AddComment} from './Forms';
 
+import appConfig from '../aws-config/aws-cognito.json';
+let loggedInUser = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`);
+
 
 const LoadingSpinner = () => {
   return (
@@ -213,7 +216,7 @@ class ViewDiscussion extends React.Component {
       body: JSON.stringify({
         discussionId: this.state.id,
         text: comment,
-        user: 'postUser'})
+        user: loggedInUser})
     })
     .then(() => {
       console.log('comment added!')
