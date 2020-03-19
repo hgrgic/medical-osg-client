@@ -3,3 +3,4 @@ npm-debug.log
 .idea
 /temp/upload_queue/*
 logs/*
+build
