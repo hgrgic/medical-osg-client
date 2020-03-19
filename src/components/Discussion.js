@@ -8,6 +8,33 @@ import {
 } from 'react-bootstrap';
 
 import {OpenNewDiscussionForm, AddComment} from './Forms';
+import appConfig from '../aws-config/aws-cognito.json';
+
+// Get session token
+let user = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
+let token = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${user}.accessToken`)
+
+// Authorised GET request
+const getAuthorised = {
+  method: 'GET',
+  withCredentials: true,
+  credentials: 'include',
+  headers: {
+    'Authorization': JSON.stringify(token),
+    'Content-Type': 'text/plain'
+  }
+}
+
+// Authorised POST request
+const postAuthorised = {
+  method: 'POST',
+  withCredentials: true,
+  credentials: 'include',
+  headers: {
+    'Authorization': JSON.stringify(token),
+    'Content-Type': 'text/plain'
+  }
+}
 
 
 const LoadingSpinner = () => {
@@ -55,10 +82,11 @@ class FetchDiscussionItems extends React.Component {
       
       const query = new FormData(event.target);
       
-      fetch(url, {
-          method: 'POST',
-          body: query
-      })
+      // modify post request object to include search query
+      let request = postAuthorised
+      request.body = query
+      
+      fetch(url, request)
       .then(
         function(response) {
             return response.json()
@@ -88,7 +116,7 @@ class FetchDiscussionItems extends React.Component {
     async componentDidMount() {
       const url = process.env.REACT_APP_API_URL + 'discussion';
       
-      await fetch(url)
+      await fetch(url, getAuthorised)
       .then(response => response.json())
       .then(
         (data) => {
@@ -177,7 +205,7 @@ class ViewDiscussion extends React.Component {
   async reloadComments() {
     const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
     
-    await fetch(url)
+    await fetch(url, getAuthorised)
     .then(response => response.json())
     .then(
       (discussionObject) => {
@@ -203,18 +231,19 @@ class ViewDiscussion extends React.Component {
     const commentForm = new FormData(event.target);
     const comment = commentForm.get('text');
     const postUrl = process.env.REACT_APP_API_URL + 'comment/add';
-  
-    await fetch(postUrl, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        discussionId: this.state.id,
-        text: comment,
-        user: 'postUser'})
-    })
+    
+    // Prepare request object
+    
+    let commentObject = JSON.stringify({
+      discussionId: this.state.id,
+      text: comment,
+      user: 'postUser'})
+    
+    let request = postAuthorised
+    
+    request.body = commentObject
+
+    await fetch(postUrl, request)
     .then(() => {
       console.log('comment added!')
       this.reloadComments()
@@ -224,7 +253,7 @@ class ViewDiscussion extends React.Component {
   async componentDidMount() {
     const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
     
-    await fetch(url)
+    await fetch(url, getAuthorised)
     .then(response => response.json())
     .then(
       (discussionObject) => {
@@ -316,7 +345,7 @@ class DiscussionImages extends React.Component {
   async componentDidMount() {
     const url = process.env.REACT_APP_API_URL + 'discussion/' + this.props.discussionId; 
 
-    await fetch(url)
+    await fetch(url, getAuthorised)
     .then(response => response.json())
     .then(data => {
       this.setState({

@@ -1,4 +1,20 @@
 import React from 'react';
+import appConfig from '../aws-config/aws-cognito.json';
+
+// Get session token
+let user = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
+let token = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${user}.accessToken`)
+
+// Authorised POST request
+const postAuthorised = {
+    method: 'POST',
+    withCredentials: true,
+    credentials: 'include',
+    headers: {
+      'Authorization': token,
+      'Content-Type': 'application/json'
+    }
+  }
 
 const SignUpForm = () => {
     return (
@@ -91,10 +107,12 @@ class OpenNewDiscussionForm extends React.Component {
         event.preventDefault();
         const data = new FormData(event.target);
         
-        fetch(process.env.REACT_APP_API_URL + 'discussion/open', {
-            method: 'POST',
-            body: data
-        });
+        // prepare request object
+        let request = postAuthorised
+    
+        request.body = data
+
+        fetch(process.env.REACT_APP_API_URL + 'discussion/open', request);
 
         this.setState({
             sent: true
