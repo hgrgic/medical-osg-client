@@ -14,6 +14,9 @@ import {
   Redirect
 } from "react-router-dom";
 
+// Cognito storage vars
+let loggedInUser = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`);
+
 
 // React Router (Application URLs)
 
