@@ -14,9 +14,6 @@ import {
   Redirect
 } from "react-router-dom";
 
-// Cognito storage vars
-
-
 // React Router (Application URLs)
 
 export default function App() {

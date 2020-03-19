@@ -114,7 +114,7 @@ class OpenNewDiscussionForm extends React.Component {
             return (
                 <form onSubmit={this.handleSubmit}>
                     <div class="form-group">
-                    <label htmlFor="owner"><b>Discussion Owner: </b>{loggedInUser}</label>
+                    <label htmlFor="owner"><b>Enter discussion details</b></label>
                     <input type="hidden" class="form-control" id="owner" name="owner" placeholder="Enter your name" required value={loggedInUser}/>
                 </div>
                 <div class="form-group">
