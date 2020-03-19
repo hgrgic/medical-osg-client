@@ -1,6 +1,5 @@
 import React from 'react';
 import './style.css';
-import {SignUpForm, LoginForm} from './Forms'
 import {
     Navbar,
     Nav, 
@@ -8,81 +7,42 @@ import {
     Button,
     Jumbotron, 
     Image,
-    Container,
-    Modal
-
+    Container
 } from 'react-bootstrap';
 
 import {Link} from "react-router-dom";
 
 // Cognito imports
-import { connect } from 'react-redux';
 import cognito from '../auth/cognitoFunctions';
-import request from 'request';
 import appConfig from '../aws-config/aws-cognito.json';
 
 // Button redirect
 import { useHistory } from 'react-router-dom';
 
-
-const mapStateToProps = state => {
-  return { session: state.session }
-}
-
 // Modal Components
 
-function SignUpModal() {
-    const [show, setShow] = React.useState(false);
-  
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-  
+
+// Sign up Component
+  function SignUpModal() {
     return (
       <React.Fragment>
-        
           <a className="signup btn btn-primary" href={cognito.getCognitoSignUpUri()} >Sign up</a>
-          <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                  <Modal.Title>Sign up</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                      <SignUpForm />
-                  </Modal.Body>
-                  <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>Close</Button>
-                  </Modal.Footer>
-          </Modal>
       </React.Fragment>
     );
   }
   
-  // Login Modal Component
 
+// Sign in Component
 const LoginModal = () => {
-    
-    const [show, setShow] = React.useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
-
-  
     return (
         <React.Fragment>
              <a className="btn btn-primary" href={cognito.getCognitoSignInUri()}>Sign in</a>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Login</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <LoginForm />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    </Modal.Footer>
-            </Modal>
         </React.Fragment>
         );
     }
+
+
 
 const HomeNavigation = () => {
         return (
@@ -109,15 +69,21 @@ const HomeNavigation = () => {
     }
 
 class HomePage extends React.Component {
+
+    constructor (props) {
+        super(props)
+        this.state = { apiStatus: 'Not called' }
+        console.log(this.props)
+    }
+
+
+
     render() {
         return (
         <React.Fragment>  
             <HomeNavigation />
-
             <Container className="App-intro-container">
-            
                 <Image src="./Medical-Engineering-Banner.jpg" className="App-intro-banner"></Image>
-            
                 <Jumbotron className="App-intro-jumbo">
                 <h1>AI for Medical Professionals</h1>
                 <p>Welcome to MedAssistant, the first crowdsourced machine learning tool for medical professionals around the world.</p>
@@ -125,6 +91,7 @@ class HomePage extends React.Component {
                 </Jumbotron>
 
             </Container>
+
         </React.Fragment>  
         )
     }
@@ -147,4 +114,3 @@ const AboutPage = () => {
     }
 
 export {HomePage, AboutPage};
-export default connect(mapStateToProps)(HomePage)

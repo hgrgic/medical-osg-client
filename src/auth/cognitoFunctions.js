@@ -47,13 +47,26 @@ const getCognitoSignUpUri = () => {
 const parseCognitoWebResponse = (href) => {
   return new Promise((resolve, reject) => {
     const auth = createCognitoAuth()
+    console.log("parsing href", href)
+    console.log(" auth is ", auth)
+    //localStorage.setItem('accessToken', auth['storage']['CognitoIdentityServiceProvider.5hmq8nk443suifrr1cv62gcsdn.test.accessToken'])
 
+    let userName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
+    let accessToken = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${userName}.accessToken`)
+
+    console.log("username is", userName)
+    console.log("accessToken is", accessToken)
+
+
+    //console.log("storage of auth is", auth['storage'])
     // userHandler will trigger the promise
-    auth.userhandler = {
+    auth.userHandler = {
       onSuccess: function (result) {
+        console.log('success ', result)
         resolve(result)
       },
       onFailure: function (err) {
+        console.log('fail  ', err)
         reject(new Error('Failure parsing Cognito web response: ' + err))
       }
     }
@@ -94,6 +107,7 @@ const signOutCognitoSession = () => {
   const auth = createCognitoAuth()
   auth.signOut()
 }
+
 
 export default {
   createCognitoAuth,

@@ -1,21 +1,24 @@
 import React from 'react';
-
 import { 
     Nav, 
     Navbar, 
     NavDropdown
   } from "react-bootstrap";
-
 import {Link} from "react-router-dom";
-
 import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
-
 import {UserInformation} from "./User"
+
+// Cognito imports
+import cognito from '../auth/cognitoFunctions';
+import appConfig from '../aws-config/aws-cognito.json';
+
 
 class PlatformPage extends React.Component {
   constructor(props) {
     super(props);
+     this.state = { apiStatus: 'Not called' }
   }
+
     render() {
         return (
           <React.Fragment>
@@ -23,6 +26,8 @@ class PlatformPage extends React.Component {
             <ComponentContainer title='Recent Discussion'>
               <FetchDiscussionItems />
             </ComponentContainer> 
+
+
           </React.Fragment>
         );
     }
@@ -83,6 +88,7 @@ class DiscussionPage extends React.Component {
     super(props);
   }
   render () {
+    console.log(this.props)
     return (
     <React.Fragment>
       <PlatformHeader discussionPage={true}/>
