@@ -208,7 +208,7 @@ class ViewDiscussion extends React.Component {
       loading: true,
       comments: [],
       error: false,
-      testComment: []
+      images: []
     }
     this.handleComment = this.handleComment.bind(this);
     this.reloadComments = this.reloadComments.bind(this);
@@ -273,7 +273,8 @@ class ViewDiscussion extends React.Component {
         this.setState({
           discussion: discussionObject,
           comments: discussionObject.comments,
-          loading: false
+          loading: false,
+          images: discussionObject.files
         });
       },
       (error) => {
@@ -328,6 +329,11 @@ class ViewDiscussion extends React.Component {
           <h5 class="card-header">{discussion.title} <DiscussionStatus discussion={discussion.status} /></h5>
           <DiscussionImages discussionId={this.state.id}/>
           
+          <h5 class="card-header top-border">Predictions</h5>
+          <div class="card-body">
+            <ImagePredictions images={this.state.images}/>
+          </div>
+
           <h5 class="card-header top-border">Description</h5>
           <div class="card-body">
             <p>{discussion.description}</p>
@@ -390,6 +396,45 @@ class DiscussionImages extends React.Component {
     );
   }
 
+}
+
+class ImagePredictions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      predictions: []
+    }
+  }
+
+  async componentDidMount() {
+    const url = process.env.REACT_APP_ML_URL + 'predict';
+    
+    await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(
+        this.props.images.map((image) => (
+        process.env.REACT_APP_S3_URL + image
+      )))
+    })
+    .then(response => response.json())
+    .then(preds => {
+      this.setState({
+        predictions: preds
+      })
+    })
+}
+
+  render () {
+    let predictions = this.state.predictions;
+
+    return (
+      <ul class="list-group-flush">
+        {predictions.map((prediction) => (
+        <li class="list-group-item">{prediction.class}</li> 
+      ))}
+      </ul>
+    )
+  }
 }
 
 

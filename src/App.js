@@ -14,7 +14,6 @@ import {
   Redirect
 } from "react-router-dom";
 
-
 // React Router (Application URLs)
 
 export default function App() {

@@ -88,7 +88,8 @@ class OpenNewDiscussionForm extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            sent: false
+            sent: false,
+            temp: []
         }
     }
 
@@ -107,7 +108,8 @@ class OpenNewDiscussionForm extends React.Component {
         });
 
         this.setState({
-            sent: true
+            sent: true,
+            temp: data
         });
     }
 
@@ -118,6 +120,10 @@ class OpenNewDiscussionForm extends React.Component {
         if (!sent) {
             return (
                 <form onSubmit={this.handleSubmit}>
+                    <div class="form-group">
+                    <label htmlFor="owner"><b>Enter discussion details</b></label>
+                    <input type="hidden" class="form-control" id="owner" name="owner" placeholder="Enter your name" required value={user}/>
+                </div>
                 <div class="form-group">
                     <label htmlFor="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Enter discussion title" required/>
@@ -125,11 +131,16 @@ class OpenNewDiscussionForm extends React.Component {
                     <label htmlFor="status"></label>
                     <input id="status" name="status" type="hidden" value="open" />
                 </div>
-        
+
                 <div class="form-group">
-                    <label htmlFor="owner">Name</label>
-                    <input type="text" class="form-control" id="owner" name="owner" placeholder="Enter your name" required />
+                <label htmlFor="category">Inference Category</label>
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                        <option name="category" id="category" value="classification" selected required>Image Classification</option>
+                        <option name="category" id="category" value="segmentation">Object Segmentation</option>
+                    </select>
                 </div>
+        
+                
                 
                 <div class="form-group">
                     <label htmlFor="description">Description</label>
