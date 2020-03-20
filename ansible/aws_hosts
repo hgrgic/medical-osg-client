@@ -1,0 +1,13 @@
+[aws-ubuntu-test]
+ec2-35-174-105-4.compute-1.amazonaws.com
+
+[aws-ubuntu-prod]
+ec2-34-204-68-24.compute-1.amazonaws.com
+
+[aws:children]
+aws-ubuntu-test
+aws-ubuntu-prod
+[aws:vars]
+ansible_ssh_private_key_file=devopslab.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_ssh_user=ubuntu
