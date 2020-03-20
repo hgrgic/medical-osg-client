@@ -11,7 +11,7 @@ const postAuthorised = {
     withCredentials: true,
     credentials: 'include',
     headers: {
-      'Authorization': token,
+      'Authorization': JSON.stringify(token),
       'Content-Type': 'application/json'
     }
   }
@@ -108,11 +108,20 @@ class OpenNewDiscussionForm extends React.Component {
         const data = new FormData(event.target);
         
         // prepare request object
-        let request = postAuthorised
+        //let request = postAuthorised
     
-        request.body = data
+        //request.body = JSON.stringify(data;
 
-        fetch(process.env.REACT_APP_API_URL + 'discussion/open', request);
+        fetch(process.env.REACT_APP_API_URL + 'discussion/open', {
+            method: 'POST',
+            withCredentials: true,
+            credentials: 'include',
+            headers: {
+                'Authorization': JSON.stringify(token),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
 
         this.setState({
             sent: true

@@ -26,16 +26,30 @@ const getAuthorised = {
 }
 
 // Authorised POST request
-const postAuthorised = {
-  method: 'POST',
-  withCredentials: true,
-  credentials: 'include',
-  headers: {
-    'Authorization': JSON.stringify(token),
-    'Content-Type': 'text/plain'
+function postAuthorised(query) {
+  if (query) {
+    return {
+      method: 'POST',
+      body: JSON.stringify({"query": query}),
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+        'Authorization': JSON.stringify(token),
+        'Content-Type': 'application/json'
+      }
+    }
+  } else {
+    return {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+        'Authorization': JSON.stringify(token),
+        'Content-Type': 'application/json'
+      }
+    }
   }
 }
-
 
 const LoadingSpinner = () => {
   return (
@@ -80,12 +94,11 @@ class FetchDiscussionItems extends React.Component {
 
       this.setSearchStatus();
       
-      const query = new FormData(event.target);
-      
+      const searchQuery = new FormData(event.target).get("query"); // Get search query
+
       // modify post request object to include search query
-      let request = postAuthorised
-      request.body = query
-      
+      let request = postAuthorised(searchQuery)
+ 
       fetch(url, request)
       .then(
         function(response) {
@@ -237,9 +250,9 @@ class ViewDiscussion extends React.Component {
     let commentObject = JSON.stringify({
       discussionId: this.state.id,
       text: comment,
-      user: 'postUser'})
+      user: user})
     
-    let request = postAuthorised
+    let request = postAuthorised()
     
     request.body = commentObject
 
