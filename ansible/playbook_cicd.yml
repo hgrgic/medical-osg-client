@@ -51,16 +51,24 @@
 
     - name: Apply executable permissions to the binary
       shell: chmod +x /usr/local/bin/docker-compose
-
+    
+    - name: Create client directory if it does not exist
+      file:
+        path: /home/ubuntu/client
+        state: directory
+        mode: '0755'
+        owner: "ubuntu"
+        group: "ubuntu"
+    
     - name: Copy Docker-Compose file
       become: no
       copy:
         src: ./test/docker-compose.yml
-        dest: ~/docker-compose.yml
+        dest: ~/client/docker-compose.yml
         mode: '0644'
 
     - name: Start services with docker-compose
-      shell: docker-compose up -d
+      shell: cd client && docker-compose up -d
       
     #- name: Download docker-compose
     #  shell: curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
