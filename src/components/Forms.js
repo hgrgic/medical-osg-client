@@ -1,4 +1,9 @@
 import React from 'react';
+import appConfig from '../aws-config/aws-cognito.json';
+
+// Get session token
+let user = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
+let token = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${user}.accessToken`)
 
 const SignUpForm = () => {
     return (
@@ -93,6 +98,11 @@ class OpenNewDiscussionForm extends React.Component {
         
         fetch(process.env.REACT_APP_API_URL + 'discussion/open', {
             method: 'POST',
+            withCredentials: true,
+            credentials: 'include',
+            headers: {
+                'Authorization': JSON.stringify(token)
+            },
             body: data
         });
 
