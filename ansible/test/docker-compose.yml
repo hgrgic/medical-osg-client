@@ -1,10 +1,23 @@
-version: '3.3'
+version: '3.5'
+
+networks:
+  osg_net:
+    name: osg_net
 
 services:
   osg-core:
     ports:
-      - '4000:4000'
+      - '3000:3000'
     container_name: 'osg-client'
     image: 'filippandza/medical-images-client:latest'
+    networks:
+      - osg_net
     environment:
-      - 'SERVER_PORT=4000' #Must match to second part of ports variable :<some-port-val>
+      - 'REACT_APP_API_URL=https://core.uva.integraliq.co'
+      - 'REACT_APP_S3_URL=https://osg-image-bucket.s3-eu-west-1.amazonaws.com/'
+      - 'REACT_APP_ML_URL=http://ec2-34-240-4-157.eu-west-1.compute.amazonaws.com/'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.http.port=3000"
+      - "traefik.frontend.rule=Host:client.uva.integraliq.co"
