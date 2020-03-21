@@ -1,5 +1,5 @@
 [aws-ubuntu-test]
-ec2-35-174-105-4.compute-1.amazonaws.com
+ec2-3-86-253-29.compute-1.amazonaws.com
 
 [aws-ubuntu-prod]
 ec2-34-204-68-24.compute-1.amazonaws.com
