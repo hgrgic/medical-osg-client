@@ -3,11 +3,11 @@
     "userPool": "us-east-1_DTPSTdXGh",
     "userPoolBaseUri": "https://medassistant-client.auth.us-east-1.amazoncognito.com",
     "clientId": "5hmq8nk443suifrr1cv62gcsdn",
-    "callbackUri": "http://localhost:3000/callback",
-    "signoutUri": "http://localhost:3000/logout",
+    "callbackUri": "https://client.uva.integraliq.co/callback",
+    "signoutUri": "https://client.uva.integraliq.co/logout",
     "tokenScopes": [
         "openid",
         "email",
-        "profile"           
+        "profile"
     ]
 }
