@@ -149,7 +149,7 @@ class OpenNewDiscussionForm extends React.Component {
         
                 <div class="form-group">
                     <label htmlFor="files">Upload medical images</label>
-                    <input type="file" class="form-control-file" id="files" name="files" multiple required />
+                    <input type="file" class="form-control-file" id="files" name="files"  accept=".jpg,.jpeg" multiple required />
                 </div>
                 <button type="submit" class="btn btn-primary submit-discussion-btn">Submit Discussion</button>
                 </form>
