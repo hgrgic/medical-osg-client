@@ -1,30 +1,23 @@
-# base image
-#FROM node:12.2.0-alpine
+FROM ubuntu:19.10
 
-# set working directory
-#WORKDIR /app
+RUN apt-get update
 
-# add `/app/node_modules/.bin` to $PATH
-#ENV PATH /app/node_modules/.bin:$PATH
+RUN apt-get -y install curl gnupg
 
-# install and cache app dependencies
-#COPY package.json /app/package.json
-#RUN npm config set unsafe-perm true
-#RUN npm install --silent
-#RUN npm install react-scripts@3.0.1 -g --silent
+RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
 
-# start app
-#CMD ["npm", "start"]
+RUN apt-get -y install nodejs
 
-FROM mhart/alpine-node:12 AS builder
 WORKDIR /app
+
 COPY . .
-RUN npm install react-scripts -g --silent
-RUN yarn install
-RUN yarn run build
 
-FROM mhart/alpine-node
-RUN yarn global add serve
-WORKDIR /app
-COPY --from=builder /app/build .
-CMD ["serve", "-p", "4000", "-s", "."]doc
+RUN npm install
+
+RUN npm install serve
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ./node_modules/serve/bin/serve.js -s build -l 3000
