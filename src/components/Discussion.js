@@ -25,6 +25,22 @@ const getAuthorised = {
   }
 }
 
+
+// const putAuthorised = {
+//   const data = {"discussionId": this.state.id}
+//   fetch(process.env.REACT_APP_API_URL + 'discussion/close', {
+//   method: 'PUT',
+//   withCredentials: true,
+//   credentials: 'include',
+//   headers: {
+//     'Authorization': JSON.stringify(token),
+//     'Content-Type': 'application/json'
+//   }
+//   body: data
+//   });
+// }
+
+
 // Authorised POST request
 function postAuthorised(query) {
   if (query) {
@@ -288,6 +304,23 @@ class ViewDiscussion extends React.Component {
     )  
   }
 
+  closeDiscussion = () => {
+    const data = {"discussionId": this.state.id}
+    const temp = JSON.stringify(data)
+    fetch(process.env.REACT_APP_API_URL + 'discussion/close', {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+        'Authorization': JSON.stringify(token),
+        'Content-Type': 'application/json'
+      },
+      body: temp
+    });
+    this.state.discussion.status = "closed"
+  }
+
+
   render () {
     let discussion = this.state.discussion;
     let comments = this.state.comments;
@@ -338,6 +371,15 @@ class ViewDiscussion extends React.Component {
           <div class="card-body">
             <p>{discussion.description}</p>
           </div>
+
+          { discussion.owner == user && discussion.status == "open" ? (
+          <div>
+            <a class="btn btn-danger btn-sm float-right closeButton" href="#" onClick={this.closeDiscussion}>Close Discussion</a>
+          </div>  
+          ) : (
+          <div>
+            <a  class="btn btn-secondary btn-sm float-right closeButton disabled" href="#" aria-disabled="true">Close Discussion</a>
+          </div>          )          }
         
           <h5 class="card-header top-border">Comments</h5>
           <div class="card-body">
