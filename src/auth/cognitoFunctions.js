@@ -5,7 +5,7 @@ import appConfig from '../aws-config/aws-cognito.json';
 
 AWSConfig.region = appConfig.region
 
-// Creates a CognitoAuth instance
+// Create a CognitoAuth instance
 const createCognitoAuth = () => {
   const appWebDomain = appConfig.userPoolBaseUri.replace('https://', '').replace('http://', '')
   const auth = new CognitoAuth({
@@ -19,18 +19,6 @@ const createCognitoAuth = () => {
   return auth
 }
 
-// Creates a CognitoUser instance
-const createCognitoUser = () => {
-  const pool = createCognitoUserPool()
-  return pool.getCurrentUser()
-}
-
-// Creates a CognitoUserPool instance
-const createCognitoUserPool = () => new CognitoUserPool({
-  UserPoolId: appConfig.userPool,
-  ClientId: appConfig.clientId
-})
-
 // Get the URI of the hosted sign in screen
 const getCognitoSignInUri = () => {
   const signinUri = `${appConfig.userPoolBaseUri}/login?response_type=code&client_id=${appConfig.clientId}&redirect_uri=${appConfig.callbackUri}`
@@ -43,23 +31,16 @@ const getCognitoSignUpUri = () => {
   return signupUri
 }
 
-// Parse the response from a Cognito callback URI (assumed a token or code is in the supplied href). Returns a promise.
+// Parse the response from a Cognito callback URI and return a promise
 const parseCognitoWebResponse = (href) => {
   return new Promise((resolve, reject) => {
     const auth = createCognitoAuth()
-    console.log("parsing href", href)
-    console.log(" auth is ", auth)
-    //localStorage.setItem('accessToken', auth['storage']['CognitoIdentityServiceProvider.5hmq8nk443suifrr1cv62gcsdn.test.accessToken'])
-
-    let userName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
-    let accessToken = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${userName}.accessToken`)
-
-    console.log("username is", userName)
-    console.log("accessToken is", accessToken)
-
-
-    //console.log("storage of auth is", auth['storage'])
-    // userHandler will trigger the promise
+    // console.log("parsing href", href)
+    // console.log(" auth is ", auth)
+    // let userName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
+    // let accessToken = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${userName}.accessToken`)
+    // console.log("username is", userName)
+    // console.log("accessToken is", accessToken)
     auth.userHandler = {
       onSuccess: function (result) {
         console.log('success ', result)
@@ -67,38 +48,10 @@ const parseCognitoWebResponse = (href) => {
       },
       onFailure: function (err) {
         console.log('fail  ', err)
-        reject(new Error('Failure parsing Cognito web response: ' + err))
+        reject(new Error('Failed parsing Cognito web response: ' + err))
       }
     }
     auth.parseCognitoWebResponse(href)
-  })
-}
-
-// Gets a new Cognito session. Returns a promise.
-const getCognitoSession = () => {
-  return new Promise((resolve, reject) => {
-    const cognitoUser = createCognitoUser()
-    cognitoUser.getSession((err, result) => {
-      if (err || !result) {
-        reject(new Error('Failure getting Cognito session: ' + err))
-        return
-      }
-
-      // Resolve the promise with the session credentials
-      console.debug('Successfully got session: ' + JSON.stringify(result))
-      const session = {
-        credentials: {
-          accessToken: result.accessToken.jwtToken,
-          idToken: result.idToken.jwtToken,
-          refreshToken: result.refreshToken.token
-        },
-        user: {
-          userName: result.idToken.payload['cognito:username'],
-          email: result.idToken.payload.email
-        }
-      }
-      resolve(session)
-    })
   })
 }
 
@@ -108,12 +61,8 @@ const signOutCognitoSession = () => {
   auth.signOut()
 }
 
-
 export default {
   createCognitoAuth,
-  createCognitoUser,
-  createCognitoUserPool,
-  getCognitoSession,
   getCognitoSignInUri,
   getCognitoSignUpUri,
   parseCognitoWebResponse,

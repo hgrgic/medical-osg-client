@@ -31,3 +31,8 @@
 .loggedin {
  color: white
 }
+
+.closeButton {
+ margin-bottom: 3px;
+ margin-right: 3px;
+}
