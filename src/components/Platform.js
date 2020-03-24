@@ -8,11 +8,7 @@ import {Link} from "react-router-dom";
 import {FetchDiscussionItems, ViewDiscussion, NewDiscussion} from "./Discussion"
 import {UserInformation} from "./User"
 
-// Cognito imports
-import cognito from '../auth/cognitoFunctions';
-import appConfig from '../aws-config/aws-cognito.json';
-
-
+// Platform page component
 class PlatformPage extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +29,7 @@ class PlatformPage extends React.Component {
     }
 }
 
+// Component container to hold fetched discussions
 const ComponentContainer = (props) => {
   return (
     <div className="container">
@@ -50,6 +47,7 @@ const ComponentContainer = (props) => {
   );
 }
 
+// Variable platform header with varying links depending on section
 class PlatformHeader extends React.Component {
   render () {
     if (!this.props.discussionPage) {
@@ -83,6 +81,7 @@ class PlatformHeader extends React.Component {
   }
 }
 
+// Component holding viewed discussions
 class DiscussionPage extends React.Component {
   constructor(props) {
     super(props);
@@ -97,6 +96,7 @@ class DiscussionPage extends React.Component {
   }
 }
 
+// Component holding open new discussion form 
 const NewDiscussionPage = () => {
   return (
     <React.Fragment>

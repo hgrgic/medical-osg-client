@@ -1,5 +1,4 @@
 import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth'
-import { CognitoUserPool } from 'amazon-cognito-identity-js'
 import { config as AWSConfig } from 'aws-sdk'
 import appConfig from '../aws-config/aws-cognito.json';
 
@@ -35,12 +34,7 @@ const getCognitoSignUpUri = () => {
 const parseCognitoWebResponse = (href) => {
   return new Promise((resolve, reject) => {
     const auth = createCognitoAuth()
-    // console.log("parsing href", href)
-    // console.log(" auth is ", auth)
-    // let userName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.LastAuthUser`)
-    // let accessToken = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.clientId}.${userName}.accessToken`)
-    // console.log("username is", userName)
-    // console.log("accessToken is", accessToken)
+   
     auth.userHandler = {
       onSuccess: function (result) {
         console.log('success ', result)

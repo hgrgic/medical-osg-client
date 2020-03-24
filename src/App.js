@@ -10,11 +10,13 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  useParams,
-  Redirect
 } from "react-router-dom";
 
-// React Router (Application URLs)
+/* 
+React Router (Application URLs)
+Only render component on given route
+if cognito JWT token is valid.
+*/
 
 export default function App() {
   return (

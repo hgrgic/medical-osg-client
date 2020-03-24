@@ -25,22 +25,6 @@ const getAuthorised = {
   }
 }
 
-
-// const putAuthorised = {
-//   const data = {"discussionId": this.state.id}
-//   fetch(process.env.REACT_APP_API_URL + 'discussion/close', {
-//   method: 'PUT',
-//   withCredentials: true,
-//   credentials: 'include',
-//   headers: {
-//     'Authorization': JSON.stringify(token),
-//     'Content-Type': 'application/json'
-//   }
-//   body: data
-//   });
-// }
-
-
 // Authorised POST request
 function postAuthorised(query) {
   if (query) {
@@ -67,6 +51,7 @@ function postAuthorised(query) {
   }
 }
 
+// Loading spinner component
 const LoadingSpinner = () => {
   return (
     <Spinner animation="border" role="status">
@@ -75,6 +60,7 @@ const LoadingSpinner = () => {
   );
 }
 
+// Discussion status badge component
 const DiscussionStatus = ( {discussion} ) => {
     if (discussion == "open") {
       return <Badge variant="success">open</Badge>;
@@ -84,7 +70,8 @@ const DiscussionStatus = ( {discussion} ) => {
       return null
     }
   }
-  
+
+// Fetch all discussions in database component
 class FetchDiscussionItems extends React.Component {
     constructor(props) {
         super(props);
@@ -102,7 +89,7 @@ class FetchDiscussionItems extends React.Component {
       this.setState({searching: true});
     }
 
-
+    // Make POST request to API with search query
     handleSearch(event) {
       const url = process.env.REACT_APP_API_URL + 'search'
 
@@ -112,7 +99,7 @@ class FetchDiscussionItems extends React.Component {
       
       const searchQuery = new FormData(event.target).get("query"); // Get search query
 
-      // modify post request object to include search query
+      // Modify post request object to include search query
       let request = postAuthorised(searchQuery)
  
       fetch(url, request)
@@ -141,7 +128,8 @@ class FetchDiscussionItems extends React.Component {
           }
       )
   }
-  
+
+    // GET all active discussions in DB when mounted
     async componentDidMount() {
       const url = process.env.REACT_APP_API_URL + 'discussion';
       
@@ -164,7 +152,7 @@ class FetchDiscussionItems extends React.Component {
         }
       )  
     }
-       
+      
     render () {
       let error = this.state.error;
       let loading = this.state.loading;
@@ -213,6 +201,7 @@ class FetchDiscussionItems extends React.Component {
     }
   }
 
+// View discussion component
 class ViewDiscussion extends React.Component {
   constructor(props) {
     /* This component gets its ID prop from the router
@@ -230,7 +219,7 @@ class ViewDiscussion extends React.Component {
     this.reloadComments = this.reloadComments.bind(this);
   }
 
-
+  // Reload discussion comment state
   async reloadComments() {
     const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
     
@@ -254,6 +243,12 @@ class ViewDiscussion extends React.Component {
     )  
   }
 
+  /* 
+  Add comment to discussion in DB 
+  This function gets its form data
+  from a child component called 
+  AddComment 
+  */
   async handleComment(event) {
     event.preventDefault();
 
@@ -262,7 +257,6 @@ class ViewDiscussion extends React.Component {
     const postUrl = process.env.REACT_APP_API_URL + 'comment/add';
     
     // Prepare request object
-    
     let commentObject = JSON.stringify({
       discussionId: this.state.id,
       text: comment,
@@ -279,6 +273,7 @@ class ViewDiscussion extends React.Component {
     });
   }
 
+  // Update state with discussion information from DB.
   async componentDidMount() {
     const url = process.env.REACT_APP_API_URL + 'discussion/' + this.state.id;
     
@@ -304,6 +299,7 @@ class ViewDiscussion extends React.Component {
     )  
   }
 
+  // Close discussion function
   closeDiscussion = () => {
     const data = {"discussionId": this.state.id}
     const temp = JSON.stringify(data)
@@ -326,7 +322,8 @@ class ViewDiscussion extends React.Component {
     let comments = this.state.comments;
     let loading = this.state.loading;
     let error = this.state.error;
-
+    
+    // Generate list of comments component by mapping over comment list
     const commentItems = comments.map((comment) =>
       <React.Fragment>
         <div class="list-group-item flex-column align-items-start comment-container">
@@ -379,8 +376,9 @@ class ViewDiscussion extends React.Component {
           ) : (
           <div>
             <a  class="btn btn-secondary btn-sm float-right closeButton disabled" href="#" aria-disabled="true">Close Discussion</a>
-          </div>          )          }
-        
+          </div>          
+          )
+          }
           <h5 class="card-header top-border">Comments</h5>
           <div class="card-body">
             <div class="list-group">
@@ -395,6 +393,7 @@ class ViewDiscussion extends React.Component {
   }
 }
 
+// Component holding all images associated with a discussion
 class DiscussionImages extends React.Component {
   constructor(props) {
     super(props);
@@ -403,6 +402,7 @@ class DiscussionImages extends React.Component {
     };
   }
 
+  // Once mounted get all image URLs
   async componentDidMount() {
     const url = process.env.REACT_APP_API_URL + 'discussion/' + this.props.discussionId; 
 
@@ -428,6 +428,7 @@ class DiscussionImages extends React.Component {
     let images = this.state.images;
 
     return (
+    // Render all images from AWS S3
     <div class="card-body">
       <div class="discussion-image-holder text-center">
         {images.map((image) => (
@@ -437,9 +438,9 @@ class DiscussionImages extends React.Component {
     </div>
     );
   }
-
 }
 
+// Component holding on the fly image predictions
 class ImagePredictions extends React.Component {
   constructor(props) {
     super(props);
@@ -448,6 +449,7 @@ class ImagePredictions extends React.Component {
     }
   }
 
+  // Make POST request to ML API using array of AWS S3 URLs
   async componentDidMount() {
     const url = process.env.REACT_APP_ML_URL + 'predict';
     
@@ -466,6 +468,7 @@ class ImagePredictions extends React.Component {
     })
 }
 
+  // Render received predictions 
   render () {
     let predictions = this.state.predictions;
 
@@ -479,7 +482,7 @@ class ImagePredictions extends React.Component {
   }
 }
 
-
+// Open new discussion component
 class NewDiscussion extends React.Component {
   render() {
     return (

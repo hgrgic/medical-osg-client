@@ -1,5 +1,4 @@
 import React from 'react';
-import './style.css';
 import {
     Navbar,
     Nav, 
@@ -12,29 +11,20 @@ import {
 
 import {Link} from "react-router-dom";
 
-// Cognito imports
+// Cognito import
 import cognito from '../auth/cognitoFunctions';
-import appConfig from '../aws-config/aws-cognito.json';
-
-// Button redirect
-import { useHistory } from 'react-router-dom';
-
-// Modal Components
-
 
 // Sign up Component
-  function SignUpModal() {
+function SignUpModal() {
     return (
-      <React.Fragment>
-          <a className="signup btn btn-primary" href={cognito.getCognitoSignUpUri()} >Sign up</a>
-      </React.Fragment>
+    <React.Fragment>
+        <a className="signup btn btn-primary" href={cognito.getCognitoSignUpUri()} >Sign up</a>
+    </React.Fragment>
     );
-  }
-  
+}
 
 // Sign in Component
 const LoginModal = () => {
-
     return (
         <React.Fragment>
              <a className="btn btn-primary" href={cognito.getCognitoSignInUri()}>Sign in</a>
@@ -42,8 +32,7 @@ const LoginModal = () => {
         );
     }
 
-
-
+// Home navigation component
 const HomeNavigation = () => {
         return (
             <header>
@@ -68,6 +57,7 @@ const HomeNavigation = () => {
         );
     }
 
+// Home landing page component
 class HomePage extends React.Component {
 
     constructor (props) {
@@ -75,8 +65,6 @@ class HomePage extends React.Component {
         this.state = { apiStatus: 'Not called' }
         console.log(this.props)
     }
-
-
 
     render() {
         return (
@@ -89,14 +77,13 @@ class HomePage extends React.Component {
                 <p>Welcome to MedAssistant, the first crowdsourced machine learning tool for medical professionals around the world.</p>
                 <Button variant="primary" href="/about">Learn more</Button>
                 </Jumbotron>
-
             </Container>
-
         </React.Fragment>  
         )
     }
 }
 
+// About page component
 const AboutPage = () => {
         return (
             <React.Fragment>

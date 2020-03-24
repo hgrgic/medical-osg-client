@@ -1,8 +1,8 @@
 import React from 'react';
 import cognito from '../auth/cognitoFunctions';
 import appConfig from '../aws-config/aws-cognito.json';
-import './style.css';
 
+// Gets user information and displays username, and/or signs him/her out
 class UserInformation extends React.Component {
 
 	onSignOut = (e) => {
@@ -12,8 +12,6 @@ class UserInformation extends React.Component {
 
 	render () {
 		return (
-			
-				
 				<div class="user-information">
 					<div class = "row">
     					<div class="col loggedin">
@@ -24,13 +22,9 @@ class UserInformation extends React.Component {
     					</div>
     				</div>
     			</div>
-			    
-
 			   )
-	}
-
-
-}
+			}
+		}
 
 
 export {UserInformation};
